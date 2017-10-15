@@ -2,7 +2,20 @@
 
 Week Five Homework Part 1: [Node Assignment](http://ucb.bootcampcontent.com/UCB-Coding-Bootcamp/09-11-2017-UCB-Class-Repository-FSF-FT/blob/master/05-week/homework/part-1/homework_instructions.md).
 
-### No Prerequisites, Installation, or Testing Instructions required
+## Installation
+
+```
+git clone https://github.com/dbmarshall/liri-node-app.git
+cd liri-node-app
+npm install
+```
+
+## Available Node Commands
+
+* my-tweets
+* spotify-this-song
+* movie-this
+* do-what-it-says
 
 ## Misc Notes
 
