@@ -7,11 +7,12 @@ var fs = require('fs');
 
 var command = process.argv[2];
 var media = process.argv[3];
+var whatToWrite = ''; 
 
 var limit = 20; // Same limit used for Twitter and Spotify
 
 
-// Setting switch in function allows it to be called after load
+// Placing switch within function allows it to be called after load for "do it"
 function switchIt() {
   switch (command) {
     case 'my-tweets':
@@ -41,19 +42,22 @@ function tweetIt() {
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
     if (!error) {
-      console.log('\n' + limit + ' Most Recent Tweets from @' + params.screen_name + ': ');
-      console.log('----------------\n');
+
+      whatToWrite = '\n' + limit + ' Most Recent Tweets from @' + params.screen_name + ': \n';
 
       for (i = 0; i < tweets.length; i++) {
-        console.log((i + 1) + ': ');
-        console.log(tweets[i].text);
-        console.log(tweets[i].created_at);
-        console.log('\n----------------\n');
+
+        whatToWrite += '----------------\n';
+        whatToWrite += '\n' + (i + 1) + ': \n';
+        whatToWrite += tweets[i].text + '\n';
+        whatToWrite += tweets[i].created_at + '\n\n';
+
       }
 
     }
 
-    writeIt();
+    console.log(whatToWrite);
+    writeIt(whatToWrite);
 
   });
 
@@ -71,34 +75,32 @@ function spotifyIt() {
   .then(function(response) {
 
     var albums = response.tracks.items;
-      // console.log(albums);
 
     if (albums.length != 0) {
 
       if (limit === 20) { 
 
-        console.log('\nTop spotify listings (by album) for the song "' + media + '" (' + limit + ' max):');
-        console.log('----------------\n')
+        whatToWrite = '\nTop spotify listings (by album) for the song "' + media + '" (' + limit + ' max):';
 
       } else {
 
-        console.log('\nThere were no song listings for "' + process.argv[3] + '," so you get one Ace of Base song:');
-        console.log('----------------\n')
+        whatToWrite = '\nThere were no song listings for "' + process.argv[3] + '," so you get one Ace of Base song:';
 
       }
 
       for (i = 0; i < albums.length; i++) {
-        console.log((i + 1) + ': ');
 
-        console.log(response.tracks.items[i].album.artists[0].name);
-        console.log(response.tracks.items[i].name);
-        console.log(response.tracks.items[i].album.external_urls.spotify);
-        console.log(response.tracks.items[i].album.name);
-        console.log('\n----------------\n');
+        whatToWrite += '\n----------------\n\n';
+        whatToWrite += (i + 1) + ': \n';
+        whatToWrite += response.tracks.items[i].album.artists[0].name + '\n';
+        whatToWrite += response.tracks.items[i].name + '\n';
+        whatToWrite += response.tracks.items[i].album.external_urls.spotify + '\n';
+        whatToWrite += response.tracks.items[i].album.name + '\n';
 
       }
 
-      writeIt();
+      console.log(whatToWrite);
+      writeIt(whatToWrite);
 
     } else {
       media = 'The Sign Ace of Base';
@@ -127,20 +129,20 @@ function movieIt() {
       if (!error && response.statusCode === 200) {
 
         body = JSON.parse(body);
-        console.log('\n');
-        console.log(body.Title);
-        console.log(body.Year);
-        console.log(body.Ratings[0].Source + ' rating: ' + body.Ratings[0].Value);
-        console.log(body.Ratings[1].Source + ' rating: ' + body.Ratings[1].Value);
-        console.log('Country: ' + body.Country);
-        console.log('Language: ' + body.Language);
-        console.log('Plot: ' + body.Plot);
-        console.log('Actors: ' + body.Actors);
-        console.log('\n');
+        whatToWrite = '\n';
+        whatToWrite += body.Title + '\n';
+        whatToWrite += body.Year + '\n';
+        whatToWrite += body.Ratings[0].Source + ' rating: ' + body.Ratings[0].Value + '\n';
+        whatToWrite += body.Ratings[1].Source + ' rating: ' + body.Ratings[1].Value + '\n';
+        whatToWrite += 'Country: ' + body.Country + '\n';
+        whatToWrite += 'Language: ' + body.Language + '\n';
+        whatToWrite += 'Plot: ' + body.Plot + '\n';
+        whatToWrite += 'Actors: ' + body.Actors + '\n';
 
       }
 
-      writeIt();
+      console.log(whatToWrite);
+      writeIt(whatToWrite);
 
     });
 
@@ -181,11 +183,14 @@ function doIt() {
 }
 
 
-// WRITE COMMANDS AND DATA TO TEXT FILE
+// WRITE COMMANDS AND OUTPUT DATA TO TEXT FILE
 
-function writeIt() {
+function writeIt(newText) {
 
-  var newText = '\n==================\n\n' + command + '\n';
+  if (!media) {media = ''};
+
+  var newText = 'COMMAND: ' + command + ' ' + media + '\n' + newText
+     + '\n==============================\n\n';
 
   fs.appendFile('log.txt', newText, function(err) {
 
@@ -193,7 +198,7 @@ function writeIt() {
       return console.log(err);
     }
 
-    console.log('log.txt was updated\n');
+    // console.log('log.txt was updated\n');
 
   });
 
