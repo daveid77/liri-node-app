@@ -39,6 +39,7 @@ function tweetIt() {
   var client = new Twitter(appKeys.twitterKeys);
 
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
+
     if (!error) {
       console.log('\n' + limit + ' Most Recent Tweets from @' + params.screen_name + ': ');
       console.log('----------------\n');
@@ -51,6 +52,9 @@ function tweetIt() {
       }
 
     }
+
+    writeIt();
+
   });
 
 }
@@ -94,6 +98,8 @@ function spotifyIt() {
 
       }
 
+      writeIt();
+
     } else {
       media = 'The Sign Ace of Base';
       limit = 1;
@@ -133,6 +139,9 @@ function movieIt() {
         console.log('\n');
 
       }
+
+      writeIt();
+
     });
 
   } else {
@@ -141,6 +150,7 @@ function movieIt() {
     movieIt();
 
   }
+
 }
 
 
@@ -158,14 +168,34 @@ function doIt() {
 
     var dataArr = data.split(',');
 
-    console.log(dataArr);
+    // console.log(dataArr);
 
     command = dataArr[0];
 
     media = dataArr[1];
 
     switchIt();
-    
+
   });
 
 }
+
+
+// WRITE COMMANDS AND DATA TO TEXT FILE
+
+function writeIt() {
+
+  var newText = '\n==================\n\n' + command + '\n';
+
+  fs.appendFile('log.txt', newText, function(err) {
+
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log('log.txt was updated\n');
+
+  });
+
+}
+
