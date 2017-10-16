@@ -12,10 +12,10 @@ npm install
 
 ## Available Node Commands
 
-* my-tweets
-* spotify-this-song '%3Csong name here%3E'
-* movie-this '%3Cmovie name here%3E'
-* do-what-it-says (reads from random.txt file)
+* `my-tweets`
+* `spotify-this-song '<song name here>'`
+* `movie-this '<movie name here>'`
+* `do-what-it-says` (reads from random.txt file)
 
 ## Misc Notes
 
