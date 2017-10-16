@@ -13,9 +13,9 @@ npm install
 ## Available Node Commands
 
 * my-tweets
-* spotify-this-song
-* movie-this
-* do-what-it-says
+* spotify-this-song '<song name here>'
+* movie-this '<movie name here>'
+* do-what-it-says (reads from random.txt file)
 
 ## Misc Notes
 
