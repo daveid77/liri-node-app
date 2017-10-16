@@ -19,7 +19,7 @@ npm install
 
 ## Misc Notes
 
-* Some kind of note would go here.
+* Bonus: App writes to console and text file, formatted rather neatly (if I don't say so myself).
 
 ## Author
 
