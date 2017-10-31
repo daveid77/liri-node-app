@@ -75,6 +75,8 @@ function spotifyIt() {
   .then(function(response) {
 
     var albums = response.tracks.items;
+    
+    console.log(albums);
 
     if (albums.length != 0) {
 
